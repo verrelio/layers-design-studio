@@ -20,7 +20,7 @@ const Line = ({ children, d = 0 }: { children: React.ReactNode; d?: number }) =>
 
 export function Hero({ go }: { go: Go }) {
   return (
-    <ImageStreamHero images={heroImages} cards={9} speed={22} axis={58} className="h-full w-full bg-bg">
+    <ImageStreamHero images={heroImages} cards={9} speed={22} axis={58} className="h-full min-h-dvh w-full bg-bg">
       <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center"
         style={{ background: "radial-gradient(ellipse 55% 50% at 50% 50%, rgba(250,247,242,.92), rgba(250,247,242,0) 70%)" }}>
         <p className="label mb-6">Landscape Architecture · Kolkata</p>
