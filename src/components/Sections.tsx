@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, MessageCircle, X } from "lucide-react";
+import { ArrowRight, MessageCircle } from "lucide-react";
 import ImageStreamHero from "@/components/ui/image-stream-hero";
 import { cn } from "@/lib/utils";
-import { contact, heroImages, layers, projects, services, type Project } from "@/data/content";
+import { contact, heroImages, layers, projects, services } from "@/data/content";
 
 type Go = (i: number) => void;
 const ease = [0.76, 0, 0.24, 1] as const;
@@ -83,10 +83,8 @@ const cats = ["All", "Residential", "Commercial", "Institutional", "Hospitality"
 export function Projects() {
   const [cat, setCat] = useState("All");
   const [hov, setHov] = useState(0);
-  const [open, setOpen] = useState<Project | null>(null);
   const list = projects.filter((p) => cat === "All" || p.category === cat);
   const cur = list[Math.min(hov, list.length - 1)];
-  const next = () => open && setOpen(list[(list.indexOf(open) + 1) % list.length]);
 
   // Intercept fullpage scroll: cycle through projects before advancing section
   useEffect(() => {
@@ -117,25 +115,13 @@ export function Projects() {
       <div className="relative z-10 flex min-h-dvh md:h-full flex-col justify-end px-5 pb-10 pt-24 md:px-14 md:pb-16">
         <ul className="mb-8 max-h-[45dvh] overflow-y-auto">
           {list.map((p, i) => (
-            <li key={p.title}><button onMouseEnter={() => setHov(i)} onFocus={() => setHov(i)} onClick={() => setOpen(p)}
+            <li key={p.title}><button onMouseEnter={() => setHov(i)} onFocus={() => setHov(i)}
               className={cn("font-display text-3xl leading-tight transition-opacity md:text-5xl", i === hov ? "opacity-100" : "opacity-50")}>{p.title}</button></li>
           ))}
         </ul>
         <div className="flex flex-wrap gap-2">{cats.map((c) => <button key={c} onClick={() => { setCat(c); setHov(0); }} className={cn("label rounded-full border px-4 py-2", cat === c ? "border-coral bg-coral text-ink" : "border-bg/40")}>{c}</button>)}</div>
         <div className="mt-4 flex gap-2 overflow-x-auto">{list.map((p, i) => <button key={p.title} aria-label={p.title} onClick={() => setHov(i)} className={cn("h-14 w-20 shrink-0 overflow-hidden rounded", i === hov && "ring-2 ring-coral")}><Img src={p.images[0]} alt="" /></button>)}</div>
       </div>
-      <AnimatePresence>
-        {open && (
-          <motion.div role="dialog" aria-modal className="fixed inset-0 z-[70] grid grid-rows-[45dvh_1fr] overflow-y-auto bg-ink/95 text-bg md:grid-cols-[2fr_1fr] md:grid-rows-1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <div className="flex snap-x overflow-x-auto">{open.images.map((s) => <div key={s} className="h-[45dvh] w-full shrink-0 snap-center md:h-full"><Img src={s} alt={open.title} className="object-cover" /></div>)}</div>
-            <div className="flex flex-col justify-center gap-4 p-8">
-              <button aria-label="Close" onClick={() => setOpen(null)} className="absolute right-5 top-5 z-10 rounded-full bg-ink/60 p-2"><X /></button>
-              <p className="label">{open.type} · {open.location}</p><h3 className="text-4xl md:text-5xl">{open.title}</h3>
-              <p className="text-bg/80">{open.text}</p><div><Btn onClick={next}>Next project</Btn></div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
