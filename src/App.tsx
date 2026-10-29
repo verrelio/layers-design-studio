@@ -55,10 +55,7 @@ export default function App() {
             </AnimatePresence>
           </main>
           <div className={`label fixed bottom-6 left-10 z-50 ${dark ? "text-bg" : "text-ink"}`}>0{index + 1} / 06 · {sectionNames[index]}</div>
-          <nav aria-label="Sections" className="fixed right-6 top-1/2 z-50 flex -translate-y-1/2 flex-col gap-3">
-            {sectionNames.map((n, i) => <button key={n} title={n} aria-label={n} onClick={() => go(i)} className={`h-2 w-2 rounded-full border border-coral ${i === index ? "bg-coral" : ""}`} />)}
-          </nav>
-          {hint && <div className="label fixed bottom-6 right-10 z-50 flex items-center gap-3">Scroll <motion.span className="block h-px w-10 origin-left bg-current" animate={{ scaleX: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 2 }} /></div>}
+                    {hint && <div className="label fixed bottom-6 right-10 z-50 flex items-center gap-3">Scroll <motion.span className="block h-px w-10 origin-left bg-current" animate={{ scaleX: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 2 }} /></div>}
         </>
       ) : (
         <main className="h-dvh snap-y snap-mandatory overflow-y-auto">
