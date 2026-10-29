@@ -52,7 +52,7 @@ export function Philosophy({ go }: { go: Go }) {
           </span></h2>
         <p className="mx-auto mt-6 max-w-xl leading-relaxed text-ink/80">We design the spaces between buildings, the courtyards, podiums, pools, streets and roofs where daily life actually happens. Every project is built in layers: land, water, planting, structure and people, each one considered, none of them an afterthought.</p>
         <div className="mt-8 flex justify-center gap-6 border-t border-ink/15 pt-6 text-sm md:gap-10">
-          {[["200+", "Projects shared"], ["5", "Layers per design"], ["Kolkata", "and beyond"]].map(([a, b]) => <div key={b}><div className="font-display text-3xl">{a}</div><div className="label mt-1">{b}</div></div>)}
+          {[["Selected", "Projects shared"], ["5", "Layers per design"], ["Kolkata", "and beyond"]].map(([a, b]) => <div key={b}><div className="font-display text-3xl">{a}</div><div className="label mt-1">{b}</div></div>)}
         </div>
       </div>
     </div>
@@ -171,6 +171,7 @@ export function Contact() {
           <p><a className="underline decoration-coral underline-offset-4" href={contact.instagram} target="_blank" rel="noreferrer">Instagram {contact.handle}</a></p></div>
         <a href={contact.whatsapp} target="_blank" rel="noreferrer" className="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-coral px-6 py-3 text-sm font-medium hover:bg-deep"><MessageCircle size={16} /> Chat on WhatsApp</a>
         <p className="label mt-12 text-ink/60">© 2026 Layers Design Studio</p>
+        <p className="mt-2 text-xs text-ink/50">Design concept for presentation only. Images and project details are illustrative.</p>
       </div>
       <div className="flex items-center bg-sand px-6 py-10 md:px-14">
         {done ? <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="font-display text-4xl">Thank you. Your email app should open with your message ready to send.</motion.p> : (
