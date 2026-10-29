@@ -87,6 +87,25 @@ export function Projects() {
   const list = projects.filter((p) => cat === "All" || p.category === cat);
   const cur = list[Math.min(hov, list.length - 1)];
   const next = () => open && setOpen(list[(list.indexOf(open) + 1) % list.length]);
+
+  // Intercept fullpage scroll: cycle through projects before advancing section
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const ev = e as CustomEvent<{ dir: number }>;
+      const dir = ev.detail.dir;
+      if (dir > 0 && hov < list.length - 1) {
+        ev.preventDefault();
+        setHov((h) => Math.min(list.length - 1, h + 1));
+      } else if (dir < 0 && hov > 0) {
+        ev.preventDefault();
+        setHov((h) => Math.max(0, h - 1));
+      }
+      // if at the boundary (first or last), don't preventDefault → section advances
+    };
+    window.addEventListener("fullpage:willstep", handler);
+    return () => window.removeEventListener("fullpage:willstep", handler);
+  }, [hov, list.length]);
+
   return (
     <div className="relative min-h-dvh md:h-full overflow-hidden bg-ink text-bg">
       <AnimatePresence>
