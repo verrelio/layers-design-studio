@@ -11,6 +11,9 @@ export function useFullpage(ids: readonly string[], enabled: boolean) {
   }, [ids]);
   const step = useCallback((d: number) => {
     if (lock.current) return;
+    // Fire a cancellable event — active sections can preventDefault() to block
+    const ev = new CustomEvent("fullpage:willstep", { cancelable: true, detail: { dir: d } });
+    if (!window.dispatchEvent(ev)) return;
     lock.current = true;
     setTimeout(() => (lock.current = false), 900);
     setIndex((cur) => {
@@ -22,23 +25,7 @@ export function useFullpage(ids: readonly string[], enabled: boolean) {
   useEffect(() => {
     if (!enabled) return;
     let y0 = 0;
-    const wheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) <= 8) return;
-      const dir = e.deltaY > 0 ? 1 : -1;
-      // If the wheel event is inside a scrollable container that hasn't reached
-      // its end in the scroll direction, let the container scroll and don't
-      // advance to the next section.
-      let el = e.target as HTMLElement | null;
-      while (el && el !== document.body) {
-        const ov = getComputedStyle(el).overflowY;
-        if ((ov === "auto" || ov === "scroll") && el.scrollHeight > el.clientHeight + 2) {
-          if (dir > 0 && el.scrollTop < el.scrollHeight - el.clientHeight - 2) return;
-          if (dir < 0 && el.scrollTop > 2) return;
-        }
-        el = el.parentElement;
-      }
-      step(dir);
-    };
+    const wheel = (e: WheelEvent) => { if (Math.abs(e.deltaY) > 8) step(e.deltaY > 0 ? 1 : -1); };
     const key = (e: KeyboardEvent) => {
       if (/INPUT|TEXTAREA|SELECT/.test((e.target as HTMLElement).tagName)) return;
       if (["ArrowDown", "PageDown", " "].includes(e.key)) step(1);
