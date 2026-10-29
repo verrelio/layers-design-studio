@@ -16,7 +16,7 @@ const useDesktop = () => {
 const Logo = () => (
   <a href="#home" className="flex items-center gap-3" aria-label="Layers Design Studio home">
     <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden><circle cx="20" cy="20" r="20" fill="#F59E6C" /><path d="M11 12h14l4 4v12H11z" fill="#fff" /><path d="M25 12v4h4z" fill="#E07B4A" /></svg>
-    <span className="font-display text-xl">Layers Design Studio</span>
+    <span className="font-display text-lg md:text-xl">Layers Design Studio</span>
   </a>
 );
 
@@ -31,9 +31,9 @@ export default function App() {
   const nav = (i: number) => { setMenu(false); if (desktop) go(i); else document.getElementById(sections[i])?.scrollIntoView({ behavior: "smooth" }); };
   return (
     <>
-      <header className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-5 md:px-10 ${dark && desktop ? "text-bg" : "text-ink"}`}>
+      <header className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 py-3 md:px-10 md:py-5 ${dark && desktop ? "text-bg" : "text-ink"} max-md:bg-bg/85 max-md:backdrop-blur`}>
         <Logo />
-        <button onClick={() => setMenu(true)} aria-label="Open menu" className="rounded-full border border-current/30 p-3"><Menu size={18} /></button>
+        <button onClick={() => setMenu(true)} aria-label="Open menu" className="rounded-full border border-current/30 p-2.5 md:p-3"><Menu size={18} /></button>
       </header>
       <AnimatePresence>
         {menu && (
